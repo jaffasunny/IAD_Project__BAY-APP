@@ -1,3 +1,4 @@
 .app {
-	max-width: 360px;
+	width: 100%;
+	min-width: 320px;
 }

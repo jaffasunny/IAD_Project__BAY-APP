@@ -17,10 +17,7 @@ import { Collapse, ListItemButton } from "@mui/material";
 const Sidebar = () => {
 	const [open, setOpen] = React.useState(false);
 	const [state, setState] = React.useState({
-		top: false,
 		left: false,
-		bottom: false,
-		right: false,
 	});
 
 	const handleClick = () => {
@@ -28,6 +25,7 @@ const Sidebar = () => {
 	};
 
 	const toggleDrawer = (anchor, open) => (event) => {
+		console.log("Hello I am toggleDrawer");
 		if (
 			event &&
 			event.type === "keydown" &&
@@ -107,7 +105,8 @@ const Sidebar = () => {
 					<SwipeableDrawer
 						anchor={anchor}
 						open={state[anchor]}
-						onClose={toggleDrawer(anchor, false)}>
+						onClose={toggleDrawer(anchor, false)}
+						onOpen={toggleDrawer(anchor, true)}>
 						{list(anchor)}
 					</SwipeableDrawer>
 				</React.Fragment>

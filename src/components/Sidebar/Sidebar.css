@@ -1,3 +1,7 @@
+.header__menu {
+	-webkit-tap-highlight-color: transparent;
+}
+
 .sidebar__list {
 	font-size: 0.875rem;
 	font-weight: 400;
