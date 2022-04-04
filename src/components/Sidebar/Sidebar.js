@@ -10,9 +10,11 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { ExpandLess, ExpandMore, Menu, StarBorder } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
+import { Collapse, ListItemButton } from "@mui/material";
+
+import { images } from "../../constants/index";
 
 import "./Sidebar.css";
-import { Collapse, ListItemButton } from "@mui/material";
 
 const Sidebar = () => {
 	const [open, setOpen] = React.useState(false);
@@ -25,7 +27,6 @@ const Sidebar = () => {
 	};
 
 	const toggleDrawer = (anchor, open) => (event) => {
-		console.log("Hello I am toggleDrawer");
 		if (
 			event &&
 			event.type === "keydown" &&
@@ -89,8 +90,9 @@ const Sidebar = () => {
 					<ListItemText primary={"Logout"} />
 				</ListItem>
 
-				<ListItem sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-					{/* <img src="../../assets/SidebarLogo.png" alt="Sidebar_LogoIcon" /> */}
+				<ListItem
+					sx={{ flexDirection: "column", alignItems: "flex-start", mt: 3 }}>
+					<img src={images.SidebarLogo} alt="Sidebar_LogoIcon" />
 					<p className="sidebar__releaseDate">Bay app v 0.1 beta release</p>
 				</ListItem>
 			</List>
