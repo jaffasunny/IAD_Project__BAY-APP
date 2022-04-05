@@ -9,7 +9,7 @@ const Header = () => {
 		<div className="header">
 			<Sidebar />
 			<div>
-				<h3 className="header__title">Bay app</h3>
+				<h3 className="header__title noselect">Bay app</h3>
 			</div>
 		</div>
 	);

@@ -17,6 +17,8 @@
 
 	color: #1a5d8d;
 	letter-spacing: -0.02em;
+
+	min-width: fit-content;
 }
 
 .weather__left {
@@ -52,6 +54,7 @@ p.weather__leftContent {
 .weather__info > * {
 	display: flex;
 	align-items: center;
+	min-width: max-content;
 }
 
 .weather__info > * > img {

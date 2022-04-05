@@ -11028,6 +11028,11 @@
   "resolved" "https://registry.npmjs.org/timsort/-/timsort-0.3.0.tgz"
   "version" "0.3.0"
 
+"tiny-skeleton-loader-react@^1.1.8":
+  "integrity" "sha512-Abm7zg/xBOddCrJQOp3YZbKXJSBq5NGA3+zwsclyZstfWliG+Autg4Idv2m2k/5fbF8GYpVQZRSYjYpa8y0Sxg=="
+  "resolved" "https://registry.npmjs.org/tiny-skeleton-loader-react/-/tiny-skeleton-loader-react-1.1.8.tgz"
+  "version" "1.1.8"
+
 "tmpl@1.0.x":
   "integrity" "sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE="
   "resolved" "https://registry.npmjs.org/tmpl/-/tmpl-1.0.4.tgz"

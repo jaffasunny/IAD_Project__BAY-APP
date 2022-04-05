@@ -18,7 +18,7 @@ const Weather = () => {
 		const signal = controller.signal;
 
 		const fetchData = async () => {
-			navigator.geolocation.getCurrentPosition(function (position) {
+			window.navigator.geolocation.getCurrentPosition(function (position) {
 				setLat(position.coords.latitude);
 				setLong(position.coords.longitude);
 			});
@@ -50,7 +50,7 @@ const Weather = () => {
 		return () => {
 			controller.abort();
 		};
-	}, [lat, long, weatherIcon]);
+	}, [lat, long]);
 
 	return (
 		<div className="weather">
@@ -60,21 +60,20 @@ const Weather = () => {
 						<h3 className="weather__leftTitle">Great weather</h3>
 						<p className="weather__leftContent">
 							Don’t forget to carry sunblock, water and umbrella
-							{console.log(data)}
 						</p>
 
 						<div className="weather__info">
 							<div className="weather__wind">
 								<img src={images.WindIcon} alt="windIcon" />
-								{data.current.wind_speed} km/h
+								<p className="weather__data">{data.current.wind_speed} km/h</p>
 							</div>
 							<div className="weather__humidity">
 								<img src={images.DropIcon} alt="windIcon" />
-								{data.current.humidity} %
+								<p className="weather__data">{data.current.humidity} %</p>
 							</div>
 							<div className="weather__uv">
 								<img src={images.SunIcon} alt="windIcon" />
-								{data.current.uvi}
+								<p className="weather__data">{data.current.uvi}</p>
 							</div>
 						</div>
 					</div>
