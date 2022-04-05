@@ -4,4 +4,4 @@ This is a University Project "Bay App" which Frontend is built using React JS an
 
 # PROJECT LIVE
 
-<a href="https://bayapp.netlify.app/">BAY APP</a>
+<a href="https://bayapp.netlify.app/" target="_blank">BAY APP</a>
