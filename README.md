@@ -1,4 +1,4 @@
-# IAD_Project\_\_BAY-APP
+# IAD_Project - Bay App
 
 This is a University Project "Bay App" which Frontend is built using React JS and backend with Django implements weather Api
 
