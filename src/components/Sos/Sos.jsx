@@ -25,9 +25,6 @@ const Sos = () => {
   return (
     <div className='sos'>
       <button {...bind} className='sos__button' />
-      {/* <button {...bind} style={{ width: 400, height: 200, fontSize: 50 }}>
-        Press and hold
-      </button> */}
     </div>
   );
 };

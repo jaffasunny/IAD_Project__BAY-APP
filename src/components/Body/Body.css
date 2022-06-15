@@ -1,3 +1,14 @@
 .body {
-	padding: 2.25rem 1rem;
+  padding: 2.25rem 1rem;
+  position: relative;
+}
+
+.MuiRating-iconFilled {
+  color: #ff3d47 !important;
+}
+
+.reportButton {
+  position: fixed;
+  top: 90vh;
+  right: 5%;
 }
