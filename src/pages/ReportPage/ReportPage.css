@@ -1,3 +1,17 @@
 .reportPage__textArea::placeholder {
   color: #858585 !important;
 }
+
+.reportPage .uploadImage {
+  display: flex;
+  align-items: center;
+
+  margin-block: 1.5rem 2rem;
+}
+
+.uploadImage__deletebtn {
+  margin-left: 1rem !important;
+  font-weight: 600 !important;
+
+  color: #cc0000 !important;
+}
