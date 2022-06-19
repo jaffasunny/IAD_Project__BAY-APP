@@ -32,7 +32,7 @@ button.sos__button {
   cursor: pointer;
   z-index: 1;
 
-  transition: all 250ms linear;
+  transition: all 45ms linear;
 }
 
 button.sos__button::before {
@@ -52,5 +52,73 @@ button.sos__button:active {
 
   /* z-index: -1; */
 
-  transition: opacity 750ms linear;
+  transition: opacity 45ms linear;
+}
+
+:root {
+  --red: red;
+}
+
+.swal2-modal {
+  border-radius: 30px !important;
+  padding-bottom: 15% !important;
+  position: relative;
+}
+
+.swal2-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  object-fit: cover;
+
+  margin: 5em auto !important;
+
+  animation: ripple 0.6s ease-in-out infinite;
+
+  filter: drop-shadow(0px 84px 75px rgba(0, 0, 0, 0.11))
+    drop-shadow(0px 35.0932px 31.3332px rgba(0, 0, 0, 0.079074))
+    drop-shadow(0px 18.7625px 16.7522px rgba(0, 0, 0, 0.0655718))
+    drop-shadow(0px 10.5181px 9.39116px rgba(0, 0, 0, 0.055))
+    drop-shadow(0px 5.58609px 4.98758px rgba(0, 0, 0, 0.0444282))
+    drop-shadow(0px 2.3245px 2.07544px rgba(0, 0, 0, 0.030926));
+}
+
+/* ripple effect */
+@keyframes ripple {
+  /* 0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1), 0 0 0 20px rgba(255, 0, 0, 0.1),
+      0 0 0 40px rgba(255, 0, 0, 0.1), 0 0 0 60px rgba(255, 0, 0, 0.1);
+  } */
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1), 0 0 0 40px rgba(255, 0, 0, 0.1),
+      0 0 0 60px rgba(255, 0, 0, 0.1), 0 0 0 80px rgba(255, 0, 0, 0);
+  }
+}
+
+.swal2-confirm {
+  background: linear-gradient(180deg, #95e4c3 0%, #65ab8e 100%) !important;
+  border-radius: 0px 0px 0px 30.009px !important;
+
+  margin: 0 !important;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 50%;
+  height: 15%;
+}
+
+.swal2-deny {
+  background: linear-gradient(180deg, #7195db 0%, #3c588c 100%) !important;
+  border-radius: 0px 0px 30.009px 0px !important;
+
+  margin: 0 !important;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  width: 50%;
+  height: 15%;
 }
