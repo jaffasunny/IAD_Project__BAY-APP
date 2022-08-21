@@ -1,12 +1,9 @@
-/* .reportPage input {
-  outline: none !important;
-} */
-
-/* .reportPage__input {
+.inputField {
   border-radius: 26px !important;
-  border: 1px solid #9d9d9d !important;
-} */
+}
 
-.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
-  border-radius: 26px !important;
+.formErrors {
+  font-weight: bold;
+  color: #d32f2f;
+  margin: 0.5rem 0 0 1rem;
 }
