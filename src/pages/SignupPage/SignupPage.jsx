@@ -20,8 +20,9 @@ import {
 import { ArrowBackIos } from "@mui/icons-material";
 import "./SignupPage.css";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { SignupValidate } from "../../utils/Validate";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,6 +50,8 @@ const SignupPage = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     fname: "",
     lname: "",
@@ -63,16 +66,20 @@ const SignupPage = () => {
   const theme = createTheme({
     typography: {
       heading: {
-        fontSize: 26,
+        fontSize: 34,
         fontWeight: 700,
       },
     },
   });
 
   const handleChange = (prop) => (event) => {
-    if (prop === "age") setValues({ ...values, [prop]: +event.target.value });
-    if (prop === "agreement") setValues({ ...values, [prop]: true });
-    else setValues({ ...values, [prop]: event.target.value });
+    if (prop === "age") {
+      setValues({ ...values, [prop]: Number(event.target.value) });
+      return;
+    } else {
+      if (prop === "agreement") setValues({ ...values, [prop]: true });
+      else setValues({ ...values, [prop]: event.target.value });
+    }
   };
 
   const handleClickShowPassword = () => {
@@ -89,8 +96,10 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     // set form errors by validating form values
-    setFormErrors(validate(values));
+    setFormErrors(SignupValidate(values));
+
     setIsSubmit(true);
   };
 
@@ -99,51 +108,9 @@ const SignupPage = () => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(values);
+      navigate("/login");
     }
-  }, [formErrors, isSubmit, values]);
-
-  // validate form and set errors if found
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.username) {
-      errors.username = "Username is required!";
-    }
-    if (!values.email) {
-      errors.email = "Email is required!";
-    } else if (!regex.test(values.email)) {
-      errors.email = "This is not a valid email format!";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length < 4) {
-      errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      errors.password = "Password cannot exceed more than 10 characters";
-    }
-    if (!values.fname) {
-      errors.fname = "Field empty";
-    }
-    if (!values.lname) {
-      errors.lname = "Field empty";
-    }
-    if (values.age.length === 1) {
-      errors.age = "Age is required";
-    } else if (values.age < 10) {
-      errors.age = "Age must be a valid number!";
-    }
-    if (values.password !== values.cpassword) {
-      errors.password = "Password don't match";
-    }
-    console.log(values.agreement);
-    if (values.agreement === false) {
-      errors.agreement = "Required!";
-    }
-    if (!values.gender) {
-      errors.gender = "Required";
-    }
-    return errors;
-  };
+  }, [formErrors, isSubmit, values, navigate]);
 
   return (
     <form className='reportPage' onSubmit={handleSubmit}>
@@ -155,9 +122,7 @@ const SignupPage = () => {
         noValidate
         autoComplete='off'>
         <ThemeProvider theme={theme}>
-          <Typography variant='heading' sx={{ fontSize: "2rem" }}>
-            Create Account
-          </Typography>
+          <Typography variant='heading'>Create Account</Typography>
           <FormControl sx={{ my: 2, width: "100%" }} variant='outlined'>
             <InputLabel htmlFor='outlined-adornment-fname'>
               First Name
@@ -204,6 +169,7 @@ const SignupPage = () => {
               endAdornment={<InputAdornment position='end'></InputAdornment>}
               label='Email'
               autoComplete='new-email'
+              // required
             />
             <p className='formErrors'>{formErrors.email}</p>
           </FormControl>
@@ -314,9 +280,12 @@ const SignupPage = () => {
             </Box>
 
             <div className='button__group flex__between'>
-              <Link to={"/"}>
+              <Link to={"/login"} style={{ textDecoration: "none" }}>
                 <Button
-                  sx={{ color: "black", textTransform: "capitalize" }}
+                  sx={{
+                    color: "black",
+                    textTransform: "capitalize",
+                  }}
                   startIcon={<ArrowBackIos />}>
                   Back
                 </Button>
@@ -331,7 +300,7 @@ const SignupPage = () => {
                   py: 1,
                 }}
                 type='submit'>
-                Login
+                Signup
               </Button>
             </div>
           </FormControl>

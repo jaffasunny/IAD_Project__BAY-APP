@@ -6,9 +6,3 @@
 .MuiRating-iconFilled {
   color: #ff3d47 !important;
 }
-
-.reportButton {
-  position: fixed;
-  top: 90vh;
-  right: 5%;
-}

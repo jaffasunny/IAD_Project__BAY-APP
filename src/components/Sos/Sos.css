@@ -61,7 +61,7 @@ button.sos__button:active {
 
 .swal2-modal {
   border-radius: 30px !important;
-  padding-bottom: 15% !important;
+  /* padding-bottom: 15% !important; */
   position: relative;
 }
 
@@ -100,13 +100,16 @@ button.sos__button:active {
   border-radius: 0px 0px 0px 30.009px !important;
 
   margin: 0 !important;
+  width: 100%;
+  height: 100%;
+}
 
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  width: 50%;
-  height: 15%;
+.swal2-actions {
+  width: 100% !important;
+  height: 100%;
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: nowrap !important; 
 }
 
 .swal2-deny {
@@ -115,10 +118,6 @@ button.sos__button:active {
 
   margin: 0 !important;
 
-  position: absolute;
-  bottom: 0;
-  right: 0;
-
-  width: 50%;
-  height: 15%;
+  width: 100%;
+  height: 100%;
 }

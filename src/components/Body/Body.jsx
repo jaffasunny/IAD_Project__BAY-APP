@@ -8,7 +8,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sos from "../Sos/Sos";
 import Weather from "../Weather/Weather";
 import { Map, Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -107,7 +107,17 @@ const BeachInfo = () => {
 
 const Body = () => {
   const navigate = useNavigate();
-
+  // const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+  const updateDimensions = () => {
+    // setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+  console.log(height);
   return (
     <div className='body'>
       <Sos />
@@ -115,7 +125,13 @@ const Body = () => {
       <BeachInfo />
       <Divider light />
       <Places />
-      <div className='reportButton'>
+      <div
+        className='reportButton'
+        style={{
+          position: "fixed",
+          top: height > 600 ? "90vh" : "85vh",
+          right: "5%",
+        }}>
         <Button
           variant='contained'
           sx={{ px: 3 }}

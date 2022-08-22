@@ -97,8 +97,9 @@ const ReportPage = () => {
               borderRadius: "26px",
               border: "1px solid #9D9D9D",
               marginTop: "2rem",
+              resize: "none",
               padding: "1rem 0.75rem",
-              overflow: "scroll",
+              overflow: "none",
             }}
             className='reportPage__textArea'
             onChange={(e) => setReportText(e.target.value)}
@@ -151,7 +152,7 @@ const ReportPage = () => {
           )}
 
           <FormControlLabel
-            sx={{ mb: 5 }}
+            sx={{ display: "block", margin: 1 }}
             value='false'
             control={<Radio />}
             label='Agree to Terms and Conditions'

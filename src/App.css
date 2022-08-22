@@ -4,14 +4,30 @@
   min-width: fit-content;
 }
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   .app {
     display: none !important;
   }
+} */
+
+.flex__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flex__between {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.inputField {
+  border-radius: 26px !important;
+}
+
+.formErrors {
+  font-weight: bold;
+  color: #d32f2f;
+  margin: 0.5rem 0 0 1rem;
 }
