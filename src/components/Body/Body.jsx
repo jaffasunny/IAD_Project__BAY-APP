@@ -83,13 +83,6 @@ const BeachInfo = () => {
           }}>
           <ThemeProvider theme={theme}>
             <Typography>You are at Clifton Beach</Typography>
-            <Typography
-              variant='caption'
-              display='block'
-              gutterBottom
-              style={{ color: "gray" }}>
-              Tap to know more
-            </Typography>
           </ThemeProvider>
         </Grid>
         <Grid item sm={1} md={2}>
@@ -117,7 +110,7 @@ const Body = () => {
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
-  console.log(height);
+  
   return (
     <div className='body'>
       <Sos />

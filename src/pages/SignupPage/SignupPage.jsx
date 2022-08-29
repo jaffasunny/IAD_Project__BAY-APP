@@ -21,8 +21,11 @@ import { ArrowBackIos } from "@mui/icons-material";
 import "./SignupPage.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SignupValidate } from "../../utils/Validate";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { UserDispatchContext } from "../../context/UserProvider";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,13 +52,13 @@ const SignupPage = () => {
   const [showCpassword, setShowCpassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-
+  const setToken = useContext(UserDispatchContext);
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
     fname: "",
     lname: "",
-    age: Number,
+    age: 0,
     email: "",
     gender: "",
     password: "",
@@ -74,12 +77,15 @@ const SignupPage = () => {
 
   const handleChange = (prop) => (event) => {
     if (prop === "age") {
-      setValues({ ...values, [prop]: Number(event.target.value) });
+      setValues({ ...values, [prop]: +event.target.value });
       return;
-    } else {
-      if (prop === "agreement") setValues({ ...values, [prop]: true });
-      else setValues({ ...values, [prop]: event.target.value });
     }
+    if (prop === "agreement") {
+      setValues({ ...values, [prop]: true });
+      return;
+    }
+    setValues({ ...values, [prop]: event.target.value });
+    return;
   };
 
   const handleClickShowPassword = () => {
@@ -96,21 +102,73 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     // set form errors by validating form values
-    setFormErrors(SignupValidate(values));
-
     setIsSubmit(true);
+    setFormErrors(SignupValidate(values));
+  };
+
+  // Signup function
+  const signUp = async () => {
+    const { data } = await axios.post(
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
+      {
+        email: email,
+        password: password,
+        first_name: fname,
+        last_name: lname,
+        age: age,
+        gender: gender,
+        helper: true,
+      },
+      {
+        // url: `${process.env.REACT_APP_REST_URL}/user/signup`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // JWT TOKEN and response message
+    const { token, email: email_resp, name, uid, response } = await data;
+    setToken(localStorage.setItem("token", token));
+    localStorage.setItem("uid", uid);
+    localStorage.setItem("email", email_resp);
+    localStorage.setItem("name", name);
+
+    if (data === 422 || !data || !token) {
+      toast.error(response, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.success("Successfully Registered!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setToken(localStorage.getItem("token"));
+    }
   };
 
   // If there are no form errors then submit the form
   useEffect(() => {
-    console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(values);
-      navigate("/login");
+      signUp();
     }
-  }, [formErrors, isSubmit, values, navigate]);
+  }, [formErrors, isSubmit, navigate]);
+
+  let { fname, lname, age, email, gender, password, cpassword, agreement } =
+    values;
 
   return (
     <form className='reportPage' onSubmit={handleSubmit}>
@@ -132,7 +190,7 @@ const SignupPage = () => {
               id='fname'
               type='text'
               error={formErrors.fname && true}
-              value={values.fname}
+              value={fname}
               onChange={handleChange("fname")}
               endAdornment={<InputAdornment position='end'></InputAdornment>}
               label='First Name'
@@ -149,7 +207,7 @@ const SignupPage = () => {
               id='lname'
               error={formErrors.lname && true}
               type='text'
-              value={values.lname}
+              value={lname}
               onChange={handleChange("lname")}
               endAdornment={<InputAdornment position='end'></InputAdornment>}
               label='Last Name'
@@ -164,7 +222,7 @@ const SignupPage = () => {
               id='email'
               type='email'
               error={formErrors.email && true}
-              value={values.email}
+              value={email}
               onChange={handleChange("email")}
               endAdornment={<InputAdornment position='end'></InputAdornment>}
               label='Email'
@@ -181,7 +239,7 @@ const SignupPage = () => {
                 error={formErrors.age && true}
                 id='age'
                 type='number'
-                value={values.age}
+                value={age > 0 && age}
                 onChange={handleChange("age")}
                 endAdornment={<InputAdornment position='end'></InputAdornment>}
                 label='Age'
@@ -194,7 +252,7 @@ const SignupPage = () => {
                 labelId='demo-multiple-name-label'
                 id='demo-multiple-name'
                 error={formErrors.gender && true}
-                value={values.gender}
+                value={gender}
                 onChange={handleChange("gender")}
                 input={<OutlinedInput label='Gender' className='inputField' />}
                 MenuProps={MenuProps}>
@@ -202,7 +260,7 @@ const SignupPage = () => {
                   <MenuItem
                     key={gender}
                     value={gender}
-                    style={getStyles(gender, values.gender, theme)}>
+                    style={getStyles(gender, gender, theme)}>
                     {gender}
                   </MenuItem>
                 ))}
@@ -216,7 +274,7 @@ const SignupPage = () => {
               id='password'
               error={formErrors.password && true}
               type={showPassword ? "text" : "password"}
-              value={values.password}
+              value={password}
               onChange={handleChange("password")}
               endAdornment={
                 <InputAdornment position='end'>
@@ -237,15 +295,11 @@ const SignupPage = () => {
           <FormControl sx={{ mb: 2, width: "100%" }} variant='outlined'>
             <InputLabel htmlFor='cpassword'>Confirm Password</InputLabel>
             <OutlinedInput
-              error={
-                formErrors.password ||
-                (values.cpassword.length > 0 &&
-                  values.password !== values.cpassword)
-              }
+              error={(formErrors.password || formErrors.cpassword) && true}
               className='inputField'
               id='cpassword'
               type={showCpassword ? "text" : "password"}
-              value={values.cpassword}
+              value={cpassword}
               onChange={handleChange("cpassword")}
               endAdornment={
                 <InputAdornment position='end'>
@@ -261,15 +315,18 @@ const SignupPage = () => {
               label='Confirm Password'
               autoComplete='new-password'
             />
-            <p className='formErrors'>{formErrors.password}</p>
+            <p className='formErrors'>
+              {formErrors.password || formErrors.cpassword}
+            </p>
 
+            {/* consider */}
             <Box sx={{ mb: 5 }}>
               <FormControlLabel
                 value='false'
                 control={
                   <>
                     <Radio
-                      value={values.agreement}
+                      value={agreement}
                       onChange={handleChange("agreement")}
                     />
                   </>

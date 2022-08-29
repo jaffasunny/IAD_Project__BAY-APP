@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
@@ -8,20 +8,23 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { ExpandLess, ExpandMore, Menu, StarBorder } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, Menu, ReportProblem, StarBorder } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import { Collapse, ListItemButton } from "@mui/material";
-
+import { toast } from "react-toastify";
 import { images } from "../../constants/index";
 
 import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
+import { UserDispatchContext } from "../../context/UserProvider";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     left: false,
   });
+  const setToken = useContext(UserDispatchContext);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -29,6 +32,16 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
+    toast.success("Logged out!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setToken(localStorage.clear());
     navigate("/login");
   };
 
@@ -52,15 +65,22 @@ const Sidebar = () => {
       onKeyDown={toggleDrawer(anchor, false)}>
       <List>
         <ListItem>
-          <Avatar sx={{ padding: "0.75rem" }}>MD</Avatar>
+          <Avatar sx={{ padding: "0.75rem" }}>
+            {localStorage
+              .getItem("name")
+              ?.split(" ")
+              .map((val) => val[0])}
+          </Avatar>
         </ListItem>
         <ListItem sx={{ flexDirection: "column", alignItems: "flex-start" }}>
-          <h2>Mike Den</h2>
+          <h2>{localStorage.getItem("name")}</h2>
           <ListItemButton
-            sx={{ px: "0", pb: "0", width: "100%" }}
+            sx={{ px: "0", pt: "0", pb: "0", width: "100%" }}
             onClick={handleClick}>
-            <ListItemText primary='mike.den@gmail.com' />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText
+              sx={{ py: "0" }}
+              primary={localStorage.getItem("email")}
+            />
           </ListItemButton>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <List component='div' disablePadding>
@@ -76,7 +96,7 @@ const Sidebar = () => {
       </List>
       <Divider sx={{ opacity: "0.7" }} />
       <List className='sidebar__list'>
-        {["How to Use", "Terms & Conditions", "Settings", "FAQs"].map(
+        {["Complaint Board", "Terms & Conditions", "Settings"].map(
           (text, index) => (
             <ListItem button key={text}>
               <ListItemIcon className='sidebar__listIcon'>

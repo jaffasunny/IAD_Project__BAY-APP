@@ -1,28 +1,40 @@
 .sidebar {
-	width: 270px !important;
-	min-width: 250px !important;
+  width: 270px !important;
+  min-width: 250px !important;
 }
 
+.sidebar h2 {
+  font-weight: 400;
+}
+
+/* .sidebar__email {
+  font-weight: 400;
+  font-size: 14px;
+  padding: 0px !important;
+  font-stretch: 3rem;
+  color: #666666;
+} */
+
 .header__menu {
-	-webkit-tap-highlight-color: transparent;
-	cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
 }
 
 .sidebar__list {
-	font-size: 0.875rem;
-	font-weight: 400;
-	line-height: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
 }
 
 .sidebar__listIcon {
-	min-width: 40px !important;
+  min-width: 40px !important;
 }
 
 .sidebar__releaseDate {
-	color: #828282;
-	font-size: 0.875rem;
-	font-weight: 400;
-	line-height: 1.5rem;
+  color: #828282;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
 
-	margin-top: 0.75rem;
+  margin-top: 0.75rem;
 }

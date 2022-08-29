@@ -1,6 +1,6 @@
 import React from "react";
 import { useLongPress, LongPressDetectEvents } from "use-long-press";
-
+import gif from "./../../assets/pulse-animation.gif";
 import "./Sos.css";
 
 import withReactContent from "sweetalert2-react-content";
@@ -19,12 +19,24 @@ const Sos = () => {
       hideClass: {
         popup: "animate__animated animate__fadeOutUp",
       },
-      title: <strong>Finding Help</strong>,
       showDenyButton: true,
       confirmButtonText: "911",
       denyButtonText: "Emergency Contacts",
-      imageUrl:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
+      html: (
+        <div className='swl__modal'>
+          <div className='img__wrapper'>
+            <img className='swl__gif' src={gif} alt='' />
+            <img
+              className='swl__img'
+              src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80'
+              alt=''
+            />
+          </div>
+        </div>
+      ),
+      title: <strong>Finding Help</strong>,
+      // imageUrl:
+      //   "",
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

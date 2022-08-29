@@ -69,11 +69,9 @@ button.sos__button:active {
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  object-fit: cover;
-
   margin: 5em auto !important;
 
-  animation: ripple 0.6s ease-in-out infinite;
+  /* animation: ripple 0.6s ease-in-out infinite; */
 
   filter: drop-shadow(0px 84px 75px rgba(0, 0, 0, 0.11))
     drop-shadow(0px 35.0932px 31.3332px rgba(0, 0, 0, 0.079074))
@@ -83,17 +81,52 @@ button.sos__button:active {
     drop-shadow(0px 2.3245px 2.07544px rgba(0, 0, 0, 0.030926));
 }
 
+.swal2-html-container {
+  overflow: hidden !important;
+}
+
+.swl__modal {
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img__wrapper {
+  object-fit: cover;
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+
+.swl__img {
+  top: 22%;
+  left: 5%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+
+.swl__gif {
+  position: absolute;
+  left: 0;
+  width: 250px;
+  object-fit: cover;
+  z-index: -1;
+}
+
 /* ripple effect */
-@keyframes ripple {
+/* @keyframes ripple {
   /* 0% {
     box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.1), 0 0 0 20px rgba(255, 0, 0, 0.1),
       0 0 0 40px rgba(255, 0, 0, 0.1), 0 0 0 60px rgba(255, 0, 0, 0.1);
   } */
-  100% {
+/* 100% {
     box-shadow: 0 0 0 20px rgba(255, 0, 0, 0.1), 0 0 0 40px rgba(255, 0, 0, 0.1),
       0 0 0 60px rgba(255, 0, 0, 0.1), 0 0 0 80px rgba(255, 0, 0, 0);
-  }
-}
+  }  */
+/* }  */
 
 .swal2-confirm {
   background: linear-gradient(180deg, #95e4c3 0%, #65ab8e 100%) !important;
@@ -109,7 +142,7 @@ button.sos__button:active {
   height: 100%;
   display: flex !important;
   flex-direction: row;
-  flex-wrap: nowrap !important; 
+  flex-wrap: nowrap !important;
 }
 
 .swal2-deny {

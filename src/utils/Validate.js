@@ -21,9 +21,7 @@ const LoginValidate = (values) => {
 const SignupValidate = (values) => {
   const errors = {};
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  if (!values.username) {
-    errors.username = "Username is required!";
-  }
+
   if (!values.email) {
     errors.email = "Email is required!";
   } else if (!regex.test(values.email)) {
@@ -48,7 +46,7 @@ const SignupValidate = (values) => {
     errors.age = "Age must be a valid number!";
   }
   if (values.password !== values.cpassword) {
-    errors.password = "Password don't match";
+    errors.cpassword = "Password don't match";
   }
   if (values.agreement === false) {
     errors.agreement = "Required!";

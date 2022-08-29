@@ -11,15 +11,19 @@ import {
 } from "@mui/material";
 import bayLogo from "./../../assets/BayLogo.png";
 import bayText from "./../../assets/Bay app.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./LoginPage.css";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { LoginValidate } from "../../utils/Validate";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { UserDispatchContext } from "../../context/UserProvider";
 
-const LoginPage = ({ setShouldRedirect }) => {
+const LoginPage = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const setToken = useContext(UserDispatchContext);
 
   const navigate = useNavigate();
 
@@ -49,15 +53,61 @@ const LoginPage = ({ setShouldRedirect }) => {
     setIsSubmit(true);
   };
 
+  const loginFunc = async () => {
+    const { data } = await axios.post(
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
+      {
+        email,
+        password,
+      },
+      {
+        // url: `${process.env.REACT_APP_REST_URL}/user/signup`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // JWT TOKEN and response message
+    const { token, email: email_resp, name, uid, response } = await data;
+    localStorage.setItem("token", token);
+    localStorage.setItem("uid", uid);
+    localStorage.setItem("email", email_resp);
+    localStorage.setItem("name", name);
+
+    if (data === 422 || !data || !token) {
+      toast.error(response || "Login Failed!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.success("Login Successful!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setToken(localStorage.getItem("token"));
+    }
+  };
+
   // If there are no form errors then submit the form
   useEffect(() => {
-    console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(values);
-      navigate("/");
-      setShouldRedirect(false);
+      loginFunc();
     }
-  }, [formErrors, isSubmit, values, navigate, setShouldRedirect]);
+  }, [formErrors, isSubmit, navigate, setToken]);
+
+  let { email, password } = values;
 
   return (
     <form className='flex__center login' onSubmit={handleSubmit}>
