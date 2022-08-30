@@ -55,7 +55,8 @@ const LoginPage = () => {
 
   const loginFunc = async () => {
     const { data } = await axios.post(
-      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
+      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
+      `/api/user/login`,
       {
         email,
         password,

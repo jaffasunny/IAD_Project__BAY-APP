@@ -32,11 +32,9 @@ const Sos = () => {
               alt=''
             />
           </div>
+          <h2 className="Sos__header">Finding Help</h2>
         </div>
       ),
-      title: <strong>Finding Help</strong>,
-      // imageUrl:
-      //   "",
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

@@ -110,7 +110,8 @@ const SignupPage = () => {
   // Signup function
   const signUp = async () => {
     const { data } = await axios.post(
-      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
+      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
+      `/api/user/signup`,
       {
         email: email,
         password: password,
