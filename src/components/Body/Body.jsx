@@ -8,14 +8,16 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sos from "../Sos/Sos";
 import Weather from "../Weather/Weather";
 import { Map, Favorite, FavoriteBorder } from "@mui/icons-material";
-
+import axios from "axios";
 import "./Body.css";
 import Places from "../Places/Places";
 import { useNavigate } from "react-router-dom";
+import { UserContext, UserDispatchContext } from "../../context/UserProvider";
+import { useLayoutEffect } from "react";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -32,10 +34,47 @@ const theme = createTheme({
       fontSize: 15,
       fontWeight: 700,
     },
+    h2: {
+      fontWeight: 700,
+      fontSize: "2rem",
+      letterSpacing: -0.02,
+      "@media (max-width:600px)": {
+        fontSize: "1.25rem",
+      },
+      "@media (max-width:375px)": {
+        fontSize: "1.2rem",
+      },
+      "@media (max-width:320px)": {
+        fontSize: "1rem",
+      },
+    },
   },
 });
 
 const BeachInfo = () => {
+  const { token, lat, long, beachInfo } = useContext(UserContext);
+  const { setBeachInfo } = useContext(UserDispatchContext);
+
+  useLayoutEffect(() => {
+    const fetchBeachName = async () => {
+      const { data } = await axios.get(
+        `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
+        // `/api/user/login`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { id, name } = await data;
+      setBeachInfo({ id, name });
+    };
+
+    if (lat.length !== 0 && long.length !== 0) fetchBeachName();
+  }, [lat, long, token, setBeachInfo]);
+
   return (
     <div className='beachInfo'>
       <Grid
@@ -79,10 +118,10 @@ const BeachInfo = () => {
           sm={8}
           md={8}
           sx={{
-            textAlign: "center",
+            textAlign: "left",
           }}>
           <ThemeProvider theme={theme}>
-            <Typography>You are at Clifton Beach</Typography>
+            <Typography variant='h2'>You're at {beachInfo.name}</Typography>
           </ThemeProvider>
         </Grid>
         <Grid item sm={1} md={2}>
@@ -110,7 +149,7 @@ const Body = () => {
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
-  
+
   return (
     <div className='body'>
       <Sos />

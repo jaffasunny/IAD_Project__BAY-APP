@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import "./Weather.css";
 
 import { images } from "../../constants/index";
 import { CircularProgress, Divider } from "@mui/material";
+import { UserContext, UserDispatchContext } from "../../context/UserProvider";
 
 const Weather = () => {
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
   const [data, setData] = useState([]);
+  const { lat, long } = useContext(UserContext);
+  const { setLat, setLong } = useContext(UserDispatchContext);
   const [weatherIcon, setWeatherIcon] = useState("");
 
   useEffect(() => {
@@ -42,12 +43,15 @@ const Weather = () => {
           }
         });
     };
+
     fetchData();
+    // const interval = setInterval(fetchData, 5000);
 
     return () => {
       controller.abort();
+      // clearInterval(interval);
     };
-  }, [lat, long]);
+  }, [lat, long, setLat, setLong]);
 
   return (
     <div className='weather'>

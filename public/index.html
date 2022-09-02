@@ -31,6 +31,8 @@
         font-family: "Urbanist", sans-serif;
         font-family: "Work Sans", sans-serif;
         position: relative;
+        -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+        scrollbar-width: none !important; /* Firefox */
       }
       h1,
       h2,
@@ -46,6 +48,16 @@
       select,
       a {
         -webkit-tap-highlight-color: transparent;
+      }
+      .scrollHide {
+        -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+        scrollbar-width: none !important; /* Firefox */
+      }
+      ::-webkit-scrollbar {
+        display: none !important; /* Safari and Chrome */
+      }
+      .scrollHide::-webkit-scrollbar {
+        display: none !important; /* Safari and Chrome */
       }
     </style>
 

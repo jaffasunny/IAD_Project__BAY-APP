@@ -32,7 +32,7 @@ const ReportPage = () => {
   const theme = createTheme({
     typography: {
       heading: {
-        fontSize: 26,
+        fontSize: 34,
         fontWeight: 700,
       },
       smallText: {

@@ -52,7 +52,7 @@ const SignupPage = () => {
   const [showCpassword, setShowCpassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-  const setToken = useContext(UserDispatchContext);
+  const { setToken } = useContext(UserDispatchContext);
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -110,8 +110,8 @@ const SignupPage = () => {
   // Signup function
   const signUp = async () => {
     const { data } = await axios.post(
-      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
-      `/api/user/signup`,
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
+      // `/api/user/signup`,
       {
         email: email,
         password: password,

@@ -8,17 +8,18 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import ReportPage from "./pages/ReportPage/ReportPage";
 import TermsPage from "./pages/TermsPage/TermsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import ComplaintsPage from "./pages/ComplaintsPage/ComplaintsPage";
 import { ToastContainer } from "react-toastify";
 import { UserContext, UserProvider } from "./context/UserProvider";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
 
 const container = document.getElementById("root");
 
 const root = createRoot(container);
 
 const RootComponent = () => {
-  const token = useContext(UserContext);
-  // useEffect(() => {}, [token]);
+  const { token } = useContext(UserContext);
 
   return (
     <>
@@ -42,8 +43,20 @@ const RootComponent = () => {
             element={!token ? <Navigate replace to='/login' /> : <ReportPage />}
           />
           <Route
-            path='/termsandconditions'
+            path='/terms'
             element={!token ? <Navigate replace to='/login' /> : <TermsPage />}
+          />
+          <Route
+            path='/complaints'
+            element={
+              !token ? <Navigate replace to='/login' /> : <ComplaintsPage />
+            }
+          />
+          <Route
+            path='/settings'
+            element={
+              !token ? <Navigate replace to='/login' /> : <SettingsPage />
+            }
           />
         </Routes>
       </BrowserRouter>

@@ -23,7 +23,7 @@ import { UserDispatchContext } from "../../context/UserProvider";
 const LoginPage = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-  const setToken = useContext(UserDispatchContext);
+  const { setToken } = useContext(UserDispatchContext);
 
   const navigate = useNavigate();
 
@@ -55,14 +55,13 @@ const LoginPage = () => {
 
   const loginFunc = async () => {
     const { data } = await axios.post(
-      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
-      `/api/user/login`,
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
+      // `/api/user/login`,
       {
         email,
         password,
       },
       {
-        // url: `${process.env.REACT_APP_REST_URL}/user/signup`,
         headers: {
           "Content-Type": "application/json",
         },
