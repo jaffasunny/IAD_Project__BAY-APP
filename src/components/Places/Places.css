@@ -1,0 +1,5 @@
+.restaurantModal__header .restaurantModal__header-titleImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}

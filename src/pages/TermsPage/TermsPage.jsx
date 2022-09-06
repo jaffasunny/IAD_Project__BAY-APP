@@ -61,7 +61,11 @@ const TermsPage = () => {
               <Card
                 elevation={8}
                 fullWidth
-                sx={{ height: "100%", overflowY: "scroll" }}
+                sx={{
+                  height: "100%",
+                  overflowY: "scroll",
+                  borderRadius: "12px",
+                }}
                 className='scrollHide'>
                 <CardContent sx={{ p: 1, pb: 2 }}>
                   <Typography variant='body2' color='text'>

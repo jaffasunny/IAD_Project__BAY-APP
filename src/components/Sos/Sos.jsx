@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLongPress, LongPressDetectEvents } from "use-long-press";
 import gif from "./../../assets/pulse-animation.gif";
 import "./Sos.css";
 
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import { UserContext } from "../../context/UserProvider";
 
 const Sos = () => {
   const callback = React.useCallback((e) => {
@@ -32,11 +33,12 @@ const Sos = () => {
               alt=''
             />
           </div>
-          <h2 className="Sos__header">Finding Help</h2>
+          <h2 className='Sos__header'>Finding Help</h2>
         </div>
       ),
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
+      console.log("stopped interval");
       if (result.isConfirmed) {
         window.location = "tel:911";
       } else if (result.isDenied) {
@@ -48,17 +50,19 @@ const Sos = () => {
     });
   }, []);
 
+  // let interval;
+
   const bind = useLongPress(true ? callback : null, {
-    // onStart: (e) => {
-    //   e.preventDefault();
-    //   // console.log("Press started");
-    // },
-    onCancel: (e) => {
+    onStart: (e) => {
       e.preventDefault();
+    },
+    onCancel: (e) => {
+      // e.preventDefault();
+      // clearInterval(interval);
       // console.log("Press cancelled");
     },
     onFinish: (e) => {
-      e.preventDefault();
+      // e.preventDefault();
       // console.log("Long press finished");
     },
     //onMove: () => console.log("Detected mouse or touch movement"),

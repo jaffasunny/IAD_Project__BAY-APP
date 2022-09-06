@@ -122,7 +122,6 @@ const SignupPage = () => {
         helper: true,
       },
       {
-        // url: `${process.env.REACT_APP_REST_URL}/user/signup`,
         headers: {
           "Content-Type": "application/json",
         },

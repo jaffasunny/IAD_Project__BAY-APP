@@ -12,9 +12,10 @@ import {
 
 import "./ReportPage.css";
 
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, Token } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const ReportPage = () => {
   const [selectedFile, setSelectedFile] = useState();
@@ -23,9 +24,6 @@ const ReportPage = () => {
     reportImage: "",
     accept: false,
   });
-
-  const [reportText, setReportText] = useState("");
-  const [accept, setAccept] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,6 +39,14 @@ const ReportPage = () => {
     },
   });
 
+  const handleChange = (e) => {
+    if (e.target.name === "accept") {
+      setFormData({ ...formData, accept: true });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
+
   const handleReportUploadImage = (e) => {
     let reader = new FileReader();
 
@@ -52,29 +58,77 @@ const ReportPage = () => {
         setSelectedFile({ file: e.target.result });
       };
     }
+    setFormData({
+      ...formData,
+      reportImage: e.target.files[0],
+      // reportImageName: e.target.files[0].,
+    });
+    // console.log(e.target.files[0]);
   };
 
   const onFileUpload = (e) => {
     e.preventDefault();
+  };
 
-    // now send this image data on server
-    const formData = new FormData();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { reportText, reportImage, reportImageName } = formData;
+    let reported_by = localStorage.getItem("email");
+    // let { file } = selectedFile;
 
-    formData.append("reportFile", selectedFile, selectedFile.name);
+    let loginFormData = new FormData();
+    loginFormData.append("issue", reportText);
+    loginFormData.append("media", reportImage);
+    loginFormData.append("reported_by", reported_by);
+    console.log(reportImage);
+    console.log(reportImage.name);
+    // console.log(media);
+    // console.log(loginFormData);
+    // console.log(reportText, media, reported_by);
+    try {
+      // make axios post request
+      const response = await axios({
+        method: "post",
+        url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/report`,
+        data: loginFormData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
 
-    // Request made to the backend api
-    // Send formData object
-    // axios.post("api/uploadfile", formData);
-
-    // Server Side end
+    // if (issue !== undefined && media !== undefined) {
+    //   const { response } = await axios.post(
+    //     `http://ec2-3-92-183-0.compute-1.amazonaws.com/report`,
+    //     // `/api/report`,
+    //     {
+    //       issue,
+    //       media,
+    //       reported_by,
+    //     },
+    //     {
+    //       headers: {
+    //         // Authorization: localStorage.getItem("token"),
+    //         accept: "application/json",
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // }
   };
 
   return (
-    <form className='reportPage'>
+    <form className='reportPage' onSubmit={handleSubmit}>
       <Container
         sx={{
           py: 4,
           px: 3,
+          minHeight: "100vh",
+          height: "auto",
         }}
         noValidate
         autoComplete='off'>
@@ -88,6 +142,7 @@ const ReportPage = () => {
           </Typography>
 
           <TextareaAutosize
+            name='reportText'
             maxRows={4}
             aria-label='maximum height'
             placeholder='Type here'
@@ -102,14 +157,15 @@ const ReportPage = () => {
               overflow: "none",
             }}
             className='reportPage__textArea'
-            onChange={(e) => setReportText(e.target.value)}
+            onChange={handleChange}
           />
 
           <label htmlFor='contained-button-file'>
             <Input
+              name='reportImage'
               accept='image/*'
               id='contained-button-file'
-              multiple
+              // multiple
               type='file'
               sx={{ display: "none" }}
               onChange={handleReportUploadImage}
@@ -145,6 +201,7 @@ const ReportPage = () => {
                 className='uploadImage__deletebtn'
                 onClick={() => {
                   setSelectedFile();
+                  setFormData({ ...formData, reportImage: "" });
                 }}>
                 Delete
               </Button>
@@ -152,11 +209,12 @@ const ReportPage = () => {
           )}
 
           <FormControlLabel
+            name='accept'
             sx={{ display: "block", margin: 1 }}
             value='false'
             control={<Radio />}
             label='Agree to Terms and Conditions'
-            onChange={() => setAccept(true)}
+            onChange={handleChange}
           />
 
           <div className='button__group flex__between'>
@@ -177,7 +235,7 @@ const ReportPage = () => {
                 px: 5,
                 py: 1,
               }}
-              onSubmit={onFileUpload}>
+              type='submit'>
               Send
             </Button>
           </div>

@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardContent,
   Container,
   createTheme,

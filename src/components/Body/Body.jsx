@@ -17,7 +17,6 @@ import "./Body.css";
 import Places from "../Places/Places";
 import { useNavigate } from "react-router-dom";
 import { UserContext, UserDispatchContext } from "../../context/UserProvider";
-import { useLayoutEffect } from "react";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -52,18 +51,64 @@ const theme = createTheme({
 });
 
 const BeachInfo = () => {
-  const { token, lat, long, beachInfo } = useContext(UserContext);
+  const { token, beachInfo } = useContext(UserContext);
   const { setBeachInfo } = useContext(UserDispatchContext);
+  const [lat, setLat] = useState([]);
+  const [long, setLong] = useState([]);
 
-  useLayoutEffect(() => {
+  const navigateInterval = () => {
+    // console.log(typeof localStorage.getItem("token"));
+
+    let req_lat, req_long;
+
+    let interval = setInterval(async () => {
+      // console.log("I'm here");
+      if (typeof localStorage.getItem("token") === "string") {
+        window.navigator.geolocation.getCurrentPosition(function (position) {
+          req_lat = position.coords.latitude;
+          req_long = position.coords.longitude;
+        });
+
+        if (req_lat !== undefined && req_long !== undefined) {
+          // console.log(req_lat);
+          // console.log(req_long);
+          const { data } = axios.post(
+            // `/api/updatelocation/${localStorage.getItem(
+            //   "uid"
+            // )},${localStorage.getItem("email")},${req_lat},${req_long}`,
+            `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatelocation/${localStorage.getItem(
+              "uid"
+            )},${localStorage.getItem("email")},${req_lat},${req_long}`,
+            {
+              headers: {
+                accept: "application/json",
+              },
+            }
+          );
+
+          if (data !== undefined) {
+            console.log(data);
+          }
+        }
+      } else clearInterval(interval);
+    }, 5000);
+    // setClearInterval(interval);
+  };
+
+  useEffect(() => {
+    window.navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
+
     const fetchBeachName = async () => {
       const { data } = await axios.get(
+        // `/api/nearbybeach/${lat},${long}`,
         `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
-        // `/api/user/login`,
         {
           headers: {
             accept: "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -72,8 +117,11 @@ const BeachInfo = () => {
       setBeachInfo({ id, name });
     };
 
-    if (lat.length !== 0 && long.length !== 0) fetchBeachName();
-  }, [lat, long, token, setBeachInfo]);
+    if (lat.length !== 0 && long.length !== 0) {
+      fetchBeachName();
+      // navigateInterval();
+    }
+  }, [lat, long, setBeachInfo]);
 
   return (
     <div className='beachInfo'>

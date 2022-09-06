@@ -13,13 +13,14 @@ import { images } from "../../constants/index";
 
 import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
-import { UserDispatchContext } from "../../context/UserProvider";
+import { UserContext, UserDispatchContext } from "../../context/UserProvider";
 
 const Sidebar = () => {
   // const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     left: false,
   });
+  
   const { setToken } = useContext(UserDispatchContext);
 
   const navigate = useNavigate();

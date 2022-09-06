@@ -10,9 +10,12 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ComplaintsPage = () => {
+  const [complaints, setComplaints] = useState({});
   const navigate = useNavigate();
 
   const theme = createTheme({
@@ -26,6 +29,24 @@ const ComplaintsPage = () => {
       },
     },
   });
+
+  useLayoutEffect(() => {
+    const getComplaints = async () => {
+      const { data } = await axios.get(
+        // `/api/nearbypoi/${beachInfo?.id}`,
+        `http://ec2-3-92-183-0.compute-1.amazonaws.com/getreports`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setComplaints(data);
+    };
+    getComplaints();
+    // if (beachInfo.id !== undefined) getPoi();
+  }, []);
 
   return (
     <div>
@@ -53,54 +74,31 @@ const ComplaintsPage = () => {
             matter to the relevant authorities to resolve the matter as fast as
             possible.
           </Typography>
-
+          {console.log(complaints.data)}
           <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Card elevation={8} fullWidth>
-                <CardMedia
-                  component='img'
-                  height='110'
-                  image='https://media.socastsrm.com/wordpress/wp-content/blogs.dir/653/files/2017/08/13438940_1118570864872833_2663343148038477483_n.jpg'
-                  alt='green iguana'
-                />
-                <CardContent sx={{ p: 1, pb: 2 }}>
-                  <Typography variant='body2' color='text'>
-                    Asnlsnlkscnlkn scnjsncka kc oj coj oja dcoj oaj dcojdcadjoc
-                    j ojdcadc docjad j aoojdcjadncnoadjoa dcojj dcodnco adocaodc
-                    oad coadc
-                  </Typography>
-                  <Typography
-                    variant='subtitle2'
-                    gutterBottom
-                    sx={{ textAlign: "right", mt: 1, fontWeight: "bold" }}>
-                    Posted: 2022-08-23
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Card elevation={8} fullWidth>
-                <CardMedia
-                  component='img'
-                  height='110'
-                  image='https://media.istockphoto.com/photos/polluted-beach-picture-id1013176096?k=20&m=1013176096&s=612x612&w=0&h=ko_AqsrqykMWQ5qbSYEE0t8iy0uz-b7_RsxkDTJx3BI='
-                  alt='green iguana'
-                />
-                <CardContent sx={{ p: 1, pb: 2 }}>
-                  <Typography variant='body2' color='text'>
-                    Asnlsnlkscnlkn scnjsncka kc oj coj oja dcoj oaj dcojdcadjoc
-                    j ojdcadc docjad j aoojdcjadncnoadjoa dcojj dcodnco adocaodc
-                    oad coadc
-                  </Typography>
-                  <Typography
-                    variant='subtitle2'
-                    gutterBottom
-                    sx={{ textAlign: "right", mt: 1, fontWeight: "bold" }}>
-                    Posted: 2022-08-23
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+            {complaints?.data?.map((comp) => (
+              <Grid item xs={12}>
+                <Card elevation={8} fullWidth sx={{ borderRadius: "12px" }}>
+                  <CardMedia
+                    component='img'
+                    height='110'
+                    image={comp.media}
+                    alt='green iguana'
+                  />
+                  <CardContent sx={{ p: 1, pb: 2 }}>
+                    <Typography variant='body2' color='text'>
+                      {comp.issue}
+                    </Typography>
+                    <Typography
+                      variant='subtitle2'
+                      gutterBottom
+                      sx={{ textAlign: "right", mt: 1, fontWeight: "bold" }}>
+                      Posted: {comp.created_at.split("T")[0]}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </ThemeProvider>
       </Container>
