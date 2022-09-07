@@ -12,7 +12,12 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext, UserDispatchContext } from "../../context/UserProvider";
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
@@ -34,6 +39,9 @@ const IOSSwitch = styled((props) => (
       },
       "&.Mui-disabled + .MuiSwitch-track": {
         opacity: 0.5,
+      },
+      "& .MuiSwitch-thumb": {
+        color: "#65C466",
       },
     },
     "&.Mui-focusVisible .MuiSwitch-thumb": {
@@ -68,6 +76,40 @@ const IOSSwitch = styled((props) => (
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const { setHelper } = useContext(UserDispatchContext);
+  const { helper } = useContext(UserContext);
+  const [checked, setChecked] = useState(
+    localStorage.getItem("helper") === "true" ? true : false
+  );
+
+  const handleChange = () => {
+    setHelper(!helper);
+    localStorage.setItem("helper", helper);
+    setChecked(!helper);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("helper", helper);
+    const helperStatus = async () => {
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+            "email"
+          )},${helper}`,
+          data: "",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            accept: "application/json",
+          },
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    helperStatus();
+  }, [helper, checked]);
 
   const theme = createTheme({
     typography: {
@@ -104,12 +146,11 @@ const SettingsPage = () => {
             Settings
           </Typography>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid item xs={12}>
               <Card
                 elevation={8}
-                fullWidth
-                sx={{ p: 1, pb: 1, overflowY: "scroll" }}
+                sx={{ p: 1, pb: 1, overflowY: "scroll", borderRadius: "12px" }}
                 className='scrollHide'>
                 <CardContent sx={{ p: 1 }}>
                   <Box
@@ -121,7 +162,7 @@ const SettingsPage = () => {
                       sx={{ fontWeight: "bold" }}>
                       Helper
                     </Typography>
-                    <IOSSwitch />
+                    <IOSSwitch checked={checked} onChange={handleChange} />
                   </Box>
                   <Typography variant='body1' color='text'>
                     By turning this on, you offer yourself to receive SOS calls

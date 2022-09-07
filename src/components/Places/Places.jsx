@@ -95,8 +95,6 @@ const Places = () => {
   };
 
   const RestaurantModal = () => {
-    console.log(selectedItem);
-
     return (
       <Modal
         // key={item.id}
