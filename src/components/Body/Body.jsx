@@ -71,12 +71,12 @@ const BeachInfo = () => {
         if (req_lat !== undefined && req_long !== undefined) {
           try {
             const { data } = axios.post(
-              // `/api/updatelocation/${localStorage.getItem(
-              //   "uid"
-              // )},${localStorage.getItem("email")},${req_lat},${req_long}`,
-              `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatelocation/${localStorage.getItem(
+              `/api/updatelocation/${localStorage.getItem(
                 "uid"
               )},${localStorage.getItem("email")},${req_lat},${req_long}`,
+              // `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatelocation/${localStorage.getItem(
+              //   "uid"
+              // )},${localStorage.getItem("email")},${req_lat},${req_long}`,
               {
                 headers: {
                   accept: "application/json",
@@ -100,8 +100,8 @@ const BeachInfo = () => {
 
     const fetchBeachName = async () => {
       const { data } = await axios.get(
-        // `/api/nearbybeach/${lat},${long}`,
-        `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
+        `/api/nearbybeach/${lat},${long}`,
+        // `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
         {
           headers: {
             accept: "application/json",
@@ -126,9 +126,12 @@ const BeachInfo = () => {
       try {
         const { data } = await axios({
           method: "post",
-          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+          url: `/api/updatehelper/${localStorage.getItem(
             "email"
           )},${helper}`,
+          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+          //   "email"
+          // )},${helper}`,
           data: "",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -229,9 +232,12 @@ const Body = () => {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
+          url: `/api/helper_ready/${localStorage.getItem(
             "uid"
           )}`,
+          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
+          //   "uid"
+          // )}`,
           data: "",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

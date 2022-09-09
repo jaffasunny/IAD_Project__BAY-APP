@@ -73,8 +73,8 @@ const Places = () => {
   useLayoutEffect(() => {
     const getPoi = async () => {
       const { data } = await axios.get(
-        // `/api/nearbypoi/${beachInfo?.id}`,
-        `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbypoi/${beachInfo?.id}`,
+        `/api/nearbypoi/${beachInfo?.id}`,
+        // `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbypoi/${beachInfo?.id}`,
         {
           headers: {
             accept: "application/json",

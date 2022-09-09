@@ -31,7 +31,7 @@ const ReportPage = () => {
     reportImage: "",
     accept: false,
   });
-
+  const { helper } = useContext(UserContext);
   const navigate = useNavigate();
 
   const theme = createTheme({
@@ -80,6 +80,21 @@ const ReportPage = () => {
     loginFormData.append("media", reportImage);
     loginFormData.append("reported_by", reported_by);
 
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `/api/report`,
+        // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/report`,
+        data: loginFormData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          accept: "application/json",
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
     setOpen(true);
   };
 

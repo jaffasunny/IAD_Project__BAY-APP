@@ -21,9 +21,10 @@ const Sos = () => {
     try {
       const { data } = await axios({
         method: "post",
-        url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
-          "uid"
-        )}`,
+        url: `/api/end_sos/${localStorage.getItem("uid")}`,
+        // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
+        //   "uid"
+        // )}`,
         data: "",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -34,7 +35,7 @@ const Sos = () => {
       console.log(error);
     }
   };
-  
+
   window.navigator.geolocation.getCurrentPosition(function (position) {
     needHelpLat = position.coords.latitude;
     needHelpLong = position.coords.longitude;
@@ -49,9 +50,12 @@ const Sos = () => {
         try {
           const { data } = await axios({
             method: "post",
-            url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/sos/start/${localStorage.getItem(
+            url: `/api/sos/start/${localStorage.getItem(
               "uid"
             )},${needHelpLat},${needHelpLong}`,
+            // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/sos/start/${localStorage.getItem(
+            //   "uid"
+            // )},${needHelpLat},${needHelpLong}`,
             data: "",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -94,9 +94,12 @@ const SettingsPage = () => {
       try {
         const { data } = await axios({
           method: "post",
-          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+          url: `/api/${localStorage.getItem(
             "email"
           )},${helper}`,
+          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+          //   "email"
+          // )},${helper}`,
           data: "",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -33,8 +33,8 @@ const ComplaintsPage = () => {
   useLayoutEffect(() => {
     const getComplaints = async () => {
       const { data } = await axios.get(
-        // `/api/nearbypoi/${beachInfo?.id}`,
-        `http://ec2-3-92-183-0.compute-1.amazonaws.com/getreports`,
+        `/api/getreports`,
+        // `http://ec2-3-92-183-0.compute-1.amazonaws.com/getreports`,
         {
           headers: {
             accept: "application/json",
