@@ -12,12 +12,12 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext, UserDispatchContext } from "../../context/UserProvider";
+import { helperStatus } from "../../Api/Post";
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
@@ -90,27 +90,7 @@ const SettingsPage = () => {
 
   useEffect(() => {
     localStorage.setItem("helper", helper);
-    const helperStatus = async () => {
-      try {
-        const { data } = await axios({
-          method: "post",
-          url: `/api/${localStorage.getItem(
-            "email"
-          )},${helper}`,
-          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
-          //   "email"
-          // )},${helper}`,
-          data: "",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            accept: "application/json",
-          },
-        });
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
     helperStatus();
   }, [helper, checked]);
 

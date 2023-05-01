@@ -23,7 +23,6 @@ import "./SignupPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { SignupValidate } from "../../utils/Validate";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { UserDispatchContext } from "../../context/UserProvider";
 import { signUp } from "../../Api/Post";
