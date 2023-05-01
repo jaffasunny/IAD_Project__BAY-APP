@@ -109,3 +109,39 @@ export const signUp = async (
     setToken(localStorage.getItem("token"));
   }
 };
+
+export const updateLocation = (req_lat, req_long) => {
+  try {
+    axios.post(
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatelocation/${localStorage.getItem(
+        "uid"
+      )},${localStorage.getItem("email")},${req_lat},${req_long}`,
+      {
+        headers: {
+          accept: "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getNearByBeach = async (lat,long, setBeachInfo) => {
+  try {
+    const { data } = await axios.get(
+      `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
+      {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const { id, name } = await data;
+    setBeachInfo({ id, name });
+  } catch (error) {
+    console.log(error);
+  }
+};

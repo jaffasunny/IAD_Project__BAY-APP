@@ -19,6 +19,7 @@ import "./Body.css";
 import Places from "../Places/Places";
 import { useNavigate } from "react-router-dom";
 import { UserContext, UserDispatchContext } from "../../context/UserProvider";
+import { getNearByBeach, updateLocation } from "../../Api/Post";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -69,24 +70,7 @@ const BeachInfo = () => {
         });
 
         if (req_lat !== undefined && req_long !== undefined) {
-          try {
-            const { data } = axios.post(
-              `/api/updatelocation/${localStorage.getItem(
-                "uid"
-              )},${localStorage.getItem("email")},${req_lat},${req_long}`,
-              // `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatelocation/${localStorage.getItem(
-              //   "uid"
-              // )},${localStorage.getItem("email")},${req_lat},${req_long}`,
-              {
-                headers: {
-                  accept: "application/json",
-                },
-              }
-            );
-            // console.log(data);
-          } catch (error) {
-            console.log(error);
-          }
+          updateLocation(req_lat, req_long);
         }
       } else clearInterval(interval);
     }, 5000);
@@ -98,24 +82,8 @@ const BeachInfo = () => {
       setLong(position.coords.longitude);
     });
 
-    const fetchBeachName = async () => {
-      const { data } = await axios.get(
-        `/api/nearbybeach/${lat},${long}`,
-        // `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      const { id, name } = await data;
-      setBeachInfo({ id, name });
-    };
-
     if (lat.length !== 0 && long.length !== 0) {
-      fetchBeachName();
+      getNearByBeach(lat, long, setBeachInfo);
       navigateInterval();
     }
   }, [lat, long, setBeachInfo]);
@@ -126,10 +94,10 @@ const BeachInfo = () => {
       try {
         const { data } = await axios({
           method: "post",
-          url: `/api/updatehelper/${localStorage.getItem("email")},${helper}`,
-          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
-          //   "email"
-          // )},${helper}`,
+          // url: `/api/updatehelper/${localStorage.getItem("email")},${helper}`,
+          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+            "email"
+          )},${helper}`,
           data: "",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
