@@ -19,7 +19,7 @@ import "./Body.css";
 import Places from "../Places/Places";
 import { useNavigate } from "react-router-dom";
 import { UserContext, UserDispatchContext } from "../../context/UserProvider";
-import { getNearByBeach, updateLocation } from "../../Api/Post";
+import { getNearByBeach, helperStatus, updateLocation } from "../../Api/Post";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -90,26 +90,8 @@ const BeachInfo = () => {
 
   useEffect(() => {
     localStorage.setItem("helper", helper);
-    const helperStatus = async () => {
-      try {
-        const { data } = await axios({
-          method: "post",
-          // url: `/api/updatehelper/${localStorage.getItem("email")},${helper}`,
-          url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
-            "email"
-          )},${helper}`,
-          data: "",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            accept: "application/json",
-          },
-        });
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    helperStatus();
+
+    helperStatus(helper);
   }, [helper]);
 
   return (

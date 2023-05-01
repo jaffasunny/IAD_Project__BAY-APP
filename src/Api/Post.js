@@ -127,7 +127,7 @@ export const updateLocation = (req_lat, req_long) => {
   }
 };
 
-export const getNearByBeach = async (lat,long, setBeachInfo) => {
+export const getNearByBeach = async (lat, long, setBeachInfo) => {
   try {
     const { data } = await axios.get(
       `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbybeach/${lat},${long}`,
@@ -141,6 +141,25 @@ export const getNearByBeach = async (lat,long, setBeachInfo) => {
 
     const { id, name } = await data;
     setBeachInfo({ id, name });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const helperStatus = async (helper) => {
+  try {
+    const { data } = await axios({
+      method: "post",
+      url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
+        "email"
+      )},${helper}`,
+      data: "",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        accept: "application/json",
+      },
+    });
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
