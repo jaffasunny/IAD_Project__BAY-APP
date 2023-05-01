@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useLongPress, LongPressDetectEvents } from "use-long-press";
 import gif from "./../../assets/pulse-animation.gif";
-import "./Sos.css";
 
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { Button, Modal } from "@mui/material";
 import { Box } from "@mui/system";
-import { endSos } from "../../Api/Post";
+import { endSos, helpNeeded } from "../../Api/Post";
+
+import "./Sos.css";
 
 const Sos = () => {
   const [helperDetails, setHelperDetails] = useState();
@@ -32,29 +32,13 @@ const Sos = () => {
       // e.preventDefault();
       const MySwal = withReactContent(Swal);
 
-      const helpNeeded = async () => {
-        try {
-          const { data } = await axios({
-            method: "post",
-            url: `/api/sos/start/${localStorage.getItem(
-              "uid"
-            )},${needHelpLat},${needHelpLong}`,
-            // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/sos/start/${localStorage.getItem(
-            //   "uid"
-            // )},${needHelpLat},${needHelpLong}`,
-            data: "",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              accept: "application/json",
-            },
-          });
-          setHelperDetails(data);
-          MySwal.close();
-          handleOpen();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      helpNeeded(
+        needHelpLat,
+        needHelpLong,
+        setHelperDetails,
+        MySwal,
+        handleOpen
+      );
 
       MySwal.fire({
         showClass: {

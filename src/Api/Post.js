@@ -165,11 +165,11 @@ export const helperStatus = async (helper) => {
   }
 };
 
-export const endSos = async() => {
+export const endSos = async () => {
   try {
     const { data } = await axios({
       method: "post",
-       url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
+      url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
         "uid"
       )}`,
       data: "",
@@ -181,4 +181,31 @@ export const endSos = async() => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const helpNeeded = async (
+  needHelpLat,
+  needHelpLong,
+  setHelperDetails,
+  MySwal,
+  handleOpen
+) => {
+  try {
+    const { data } = await axios({
+      method: "post",
+      url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/sos/start/${localStorage.getItem(
+        "uid"
+      )},${needHelpLat},${needHelpLong}`,
+      data: "",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        accept: "application/json",
+      },
+    });
+    setHelperDetails(data);
+    MySwal.close();
+    handleOpen();
+  } catch (error) {
+    console.log(error);
+  }
+};
