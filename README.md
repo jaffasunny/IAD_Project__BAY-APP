@@ -1,8 +1,6 @@
 # IAD_Project - Bay App
 
-This is a University Project "Bay App" which Frontend is built using React JS and backend with Django with a implements weather Api
-
-Progressive Web App (PWA) also implemented
+This is a University Project "Bay App" which is an API driven Application with ReactJS as Frontend with Material UI.
 
 # BACKEND REST_API
 
