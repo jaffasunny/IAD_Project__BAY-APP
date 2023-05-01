@@ -16,9 +16,8 @@ import "./LoginPage.css";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { LoginValidate } from "../../utils/Validate";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { UserDispatchContext } from "../../context/UserProvider";
+import { loginFunc } from "../../Api/Post";
 
 const LoginPage = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -53,57 +52,10 @@ const LoginPage = () => {
     setIsSubmit(true);
   };
 
-  const loginFunc = async () => {
-    const { data } = await axios.post(
-      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/login`,
-      `/api/user/login`,
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // JWT TOKEN and response message
-    const { token, email: email_resp, name, uid, response } = await data;
-    localStorage.setItem("token", token);
-    localStorage.setItem("uid", uid);
-    localStorage.setItem("email", email_resp);
-    localStorage.setItem("name", name);
-
-    if (data === 422 || !data || !token) {
-      toast.error(response || "Login Failed!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      toast.success("Login Successful!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      setToken(localStorage.getItem("token"));
-    }
-  };
-
   // If there are no form errors then submit the form
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      loginFunc();
+      loginFunc(email, password, setToken);
     }
   }, [formErrors, isSubmit, navigate, setToken]);
 
@@ -112,6 +64,7 @@ const LoginPage = () => {
   return (
     <form className='flex__center login' onSubmit={handleSubmit}>
       <Container
+        maxWidth='sm'
         sx={{
           py: 4,
           px: 3,
