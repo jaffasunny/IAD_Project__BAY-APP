@@ -35,3 +35,16 @@ export const getPoi = async (beachInfo, token, setCardData) => {
   );
   setCardData(data);
 };
+
+export const getComplaints = async (setComplaints) => {
+  const { data } = await axios.get(
+    `http://ec2-3-92-183-0.compute-1.amazonaws.com/getreports`,
+    {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  setComplaints(data);
+};

@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getComplaints } from "../../Api/Get";
 
 const ComplaintsPage = () => {
   const [complaints, setComplaints] = useState({});
@@ -31,19 +32,6 @@ const ComplaintsPage = () => {
   });
 
   useLayoutEffect(() => {
-    const getComplaints = async () => {
-      const { data } = await axios.get(
-        `/api/getreports`,
-        // `http://ec2-3-92-183-0.compute-1.amazonaws.com/getreports`,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setComplaints(data);
-    };
     getComplaints();
     // if (beachInfo.id !== undefined) getPoi();
   }, []);
