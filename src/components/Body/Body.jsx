@@ -14,12 +14,13 @@ import React, { useContext, useEffect, useState } from "react";
 import Sos from "../Sos/Sos";
 import Weather from "../Weather/Weather";
 import { Map, Favorite, FavoriteBorder } from "@mui/icons-material";
-import axios from "axios";
-import "./Body.css";
 import Places from "../Places/Places";
 import { useNavigate } from "react-router-dom";
 import { UserContext, UserDispatchContext } from "../../context/UserProvider";
 import { getNearByBeach, helperStatus, updateLocation } from "../../Api/Post";
+import { helperReady } from "../../Api/Get";
+
+import "./Body.css";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -177,36 +178,12 @@ const Body = () => {
   const [helpNeededValue, setHelpNeededValue] = useState(false);
 
   useEffect(() => {
-    const helperReady = async () => {
-      try {
-        const { data } = await axios({
-          method: "get",
-          url: `/api/helper_ready/${localStorage.getItem("uid")}`,
-          // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
-          //   "uid"
-          // )}`,
-          data: "",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            accept: "application/json",
-          },
-        });
-        // console.log(data);
-        if (data.first_name) {
-          setHelpNeededValue(data);
-          handleOpen();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     let interval = setInterval(() => {
       if (
         helper === true &&
         typeof localStorage.getItem("token") === "string"
       ) {
-        helperReady();
+        helperReady(setHelpNeededValue, handleOpen);
       } else {
         clearInterval(interval);
       }

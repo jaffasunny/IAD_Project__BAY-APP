@@ -15,11 +15,11 @@ import {
 } from "@mui/material";
 import { useContext, useLayoutEffect, useState } from "react";
 import { UserContext } from "../../context/UserProvider";
-import axios from "axios";
-import "./Places.css";
 import { Call, NearMe } from "@mui/icons-material";
 import { ArrowBackIos, Favorite, FavoriteBorder } from "@mui/icons-material";
 import styled from "@emotion/styled";
+import { getPoi } from "../../Api/Get";
+import "./Places.css";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -63,28 +63,12 @@ const Places = () => {
   const [cardData, setCardData] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
   const handleClose = () => {
     setOpen(false);
   };
 
   useLayoutEffect(() => {
-    const getPoi = async () => {
-      const { data } = await axios.get(
-        // `/api/nearbypoi/${beachInfo?.id}`,
-        `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbypoi/${beachInfo?.id}`,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setCardData(data);
-    };
-    if (beachInfo.id !== undefined) getPoi();
+    if (beachInfo.id !== undefined) getPoi(beachInfo, token, setCardData);
   }, [token, beachInfo]);
 
   const style = {
