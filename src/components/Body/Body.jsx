@@ -126,9 +126,7 @@ const BeachInfo = () => {
       try {
         const { data } = await axios({
           method: "post",
-          url: `/api/updatehelper/${localStorage.getItem(
-            "email"
-          )},${helper}`,
+          url: `/api/updatehelper/${localStorage.getItem("email")},${helper}`,
           // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/updatehelper/${localStorage.getItem(
           //   "email"
           // )},${helper}`,
@@ -151,6 +149,7 @@ const BeachInfo = () => {
       <Grid
         container
         spacing={2}
+        maxWidth='sm'
         sx={{
           pt: 4,
           pb: 1,
@@ -232,9 +231,7 @@ const Body = () => {
       try {
         const { data } = await axios({
           method: "get",
-          url: `/api/helper_ready/${localStorage.getItem(
-            "uid"
-          )}`,
+          url: `/api/helper_ready/${localStorage.getItem("uid")}`,
           // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
           //   "uid"
           // )}`,
@@ -317,7 +314,6 @@ const Body = () => {
 
   return (
     <div className='body'>
-      {console.log(helpNeededValue)}
       {helpNeededValue && <HelpNeeded />}
       <Sos />
       <Weather />
