@@ -10,7 +10,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getComplaints } from "../../Api/Get";

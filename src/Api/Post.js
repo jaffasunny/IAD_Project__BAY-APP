@@ -209,3 +209,21 @@ export const helpNeeded = async (
     console.log(error);
   }
 };
+
+export const createReport = async (loginFormData) => {
+  try {
+    const { data } = await axios({
+      method: "post",
+      url: `/api/report`,
+      // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/report`,
+      data: loginFormData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        accept: "application/json",
+      },
+    });
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};

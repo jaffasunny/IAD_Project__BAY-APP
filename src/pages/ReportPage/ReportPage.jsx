@@ -12,13 +12,14 @@ import {
   Typography,
 } from "@mui/material";
 import successGif from "./../../assets/success.gif";
-import "./ReportPage.css";
 
 import { ArrowBackIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import axios from "axios";
 import { UserContext } from "../../context/UserProvider";
+import { createReport } from "../../Api/Post";
+
+import "./ReportPage.css";
 
 const ReportPage = () => {
   const [open, setOpen] = useState(false);
@@ -80,21 +81,7 @@ const ReportPage = () => {
     loginFormData.append("media", reportImage);
     loginFormData.append("reported_by", reported_by);
 
-    try {
-      const { data } = await axios({
-        method: "post",
-        url: `/api/report`,
-        // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/report`,
-        data: loginFormData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          accept: "application/json",
-        },
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    createReport(loginFormData);
     setOpen(true);
   };
 
