@@ -26,6 +26,7 @@ import { SignupValidate } from "../../utils/Validate";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserDispatchContext } from "../../context/UserProvider";
+import { signUp } from "../../Api/Post";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -107,63 +108,10 @@ const SignupPage = () => {
     setFormErrors(SignupValidate(values));
   };
 
-  // Signup function
-  const signUp = async () => {
-    const { data } = await axios.post(
-      // `http://ec2-3-92-183-0.compute-1.amazonaws.com/user/signup`,
-      `/api/user/signup`,
-      {
-        email: email,
-        password: password,
-        first_name: fname,
-        last_name: lname,
-        age: age,
-        gender: gender,
-        helper: true,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // JWT TOKEN and response message
-    const { token, email: email_resp, name, uid, response } = await data;
-    setToken(localStorage.setItem("token", token));
-    localStorage.setItem("uid", uid);
-    localStorage.setItem("email", email_resp);
-    localStorage.setItem("name", name);
-
-    if (data === 422 || !data || !token) {
-      toast.error(response, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      toast.success("Successfully Registered!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      setToken(localStorage.getItem("token"));
-    }
-  };
-
   // If there are no form errors then submit the form
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      signUp();
+      signUp(email, password, fname, lname, age, gender, setToken);
     }
   }, [formErrors, isSubmit, navigate]);
 
@@ -173,6 +121,7 @@ const SignupPage = () => {
   return (
     <form className='reportPage' onSubmit={handleSubmit}>
       <Container
+        maxWidth='sm'
         sx={{
           py: 4,
           px: 3,

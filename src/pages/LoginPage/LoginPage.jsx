@@ -17,7 +17,7 @@ import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { LoginValidate } from "../../utils/Validate";
 import { UserDispatchContext } from "../../context/UserProvider";
-import { loginFunc } from "../../Api/Post";
+import { login } from "../../Api/Post";
 
 const LoginPage = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -55,7 +55,7 @@ const LoginPage = () => {
   // If there are no form errors then submit the form
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      loginFunc(email, password, setToken);
+      login(email, password, setToken);
     }
   }, [formErrors, isSubmit, navigate, setToken]);
 
