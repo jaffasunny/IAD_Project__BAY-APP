@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Button, Modal } from "@mui/material";
 import { Box } from "@mui/system";
+import { endSos } from "../../Api/Post";
 
 const Sos = () => {
   const [helperDetails, setHelperDetails] = useState();
@@ -18,22 +19,7 @@ const Sos = () => {
   };
   const handleClose = async () => {
     setOpen(false);
-    try {
-      const { data } = await axios({
-        method: "post",
-        url: `/api/end_sos/${localStorage.getItem("uid")}`,
-        // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
-        //   "uid"
-        // )}`,
-        data: "",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          accept: "application/json",
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    endSos();
   };
 
   window.navigator.geolocation.getCurrentPosition(function (position) {

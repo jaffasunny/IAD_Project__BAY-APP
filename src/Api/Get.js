@@ -4,10 +4,9 @@ export const helperReady = async (setHelpNeededValue, handleOpen) => {
   try {
     const { data } = await axios({
       method: "get",
-      url: `/api/helper_ready/${localStorage.getItem("uid")}`,
-      // url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
-      //   "uid"
-      // )}`,
+      url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/helper_ready/${localStorage.getItem(
+        "uid"
+      )}`,
       data: "",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -26,7 +25,6 @@ export const helperReady = async (setHelpNeededValue, handleOpen) => {
 
 export const getPoi = async (beachInfo, token, setCardData) => {
   const { data } = await axios.get(
-    // `/api/nearbypoi/${beachInfo?.id}`,
     `http://ec2-3-92-183-0.compute-1.amazonaws.com/nearbypoi/${beachInfo?.id}`,
     {
       headers: {

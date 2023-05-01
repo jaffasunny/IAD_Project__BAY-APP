@@ -164,3 +164,21 @@ export const helperStatus = async (helper) => {
     console.log(error);
   }
 };
+
+export const endSos = async() => {
+  try {
+    const { data } = await axios({
+      method: "post",
+       url: `http://ec2-3-92-183-0.compute-1.amazonaws.com/end_sos/${localStorage.getItem(
+        "uid"
+      )}`,
+      data: "",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        accept: "application/json",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
